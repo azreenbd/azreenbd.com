@@ -6,10 +6,14 @@
 
 :root {
 	--accent: #c13e3e;
+	--accent-rgb: 193,62,62;
 	--bg-primary: #000;
 	--bg-secondary: #221818;
 	--text-color: #fff;
 	--text-muted: #888888;
+	--border-radius: 2rem;
+	--border-radius-sm: calc(2rem/2);
+	--border-radius-xs: calc(2rem/4);
 }
 @font-face {
 	font-family: "Atkinson";
@@ -42,6 +46,7 @@ main {
 	width: 720px;
 	max-width: calc(100% - 2em);
 	margin: auto;
+	margin-top: 4rem;
 	padding: 3em 1em;
 }
 h1,
@@ -98,17 +103,17 @@ table {
 img {
 	max-width: 100%;
 	height: auto;
-	border-radius: 8px;
+	border-radius: var(--border-radius);
 }
 code {
 	padding: 2px 5px;
 	background-color: #24292e;
 	color: #e1e4e8;
-	border-radius: 2px;
+	border-radius: var(--border-radius-xs);
 }
 pre {
-	padding: 1.5em;
-	border-radius: 8px;
+	padding: var(--border-radius);
+	border-radius: var(--border-radius);
 }
 pre > code {
 	all: unset;
@@ -123,12 +128,25 @@ hr {
 	border: none;
 	border-top: 1px solid var(--text-muted);
 }
+.bevel {
+	background-color: rgba(255, 255, 255, 0.1);
+	backdrop-filter: blur(.75rem);
+	outline: .1em solid rgba(0, 0, 0, 0.05);
+	border-radius: var(--border-radius);
+	border-top: .1em solid rgba(255, 255, 255, 0.175);
+	border-left: .1em solid rgba(255, 255, 255, 0.175);
+	border-right: .1em solid rgba(255, 255, 255, 0.025);
+	border-bottom: .1em solid rgba(255, 255, 255, 0.025);
+	
+}
+
 @media (max-width: 720px) {
 	body {
 		font-size: 18px;
 	}
 	main {
 		padding: 1em;
+		margin-top: 6rem;
 	}
 }
 

@@ -1,0 +1,146 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import Header from '../../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+
+const posts = (await getCollection('project')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const stackColors = {
+	Vue: '#41b883',
+	HTML: '#e34c26',
+	JavaScript: '#f1e05a',
+	PHP: '#4F5D95',
+	CSS: '#663399',
+	'C#': '#178600',
+	Astro: '#0F1C8A'
+
+}
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			main {
+				width: 960px;
+			}
+			h1 {
+				margin-bottom: 1rem;
+			}
+			ul {
+				display: flex;
+				flex-wrap: wrap;
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
+			ul li {
+				width: 100%;
+				padding: 1rem 0;
+				border-bottom: 1px solid rgba(128,128,128,.5);
+			}
+			ul li:first-child {
+				border-top: 1px solid rgba(128,128,128,.5);
+			}
+			ul li * {
+				text-decoration: none;
+				transition: 0.2s ease;
+			}
+			ul li img {
+				height: 5rem;
+				width: auto;
+			}
+			ul li a {
+				display: flex;
+				justify-content: space-between;
+			}
+			ul li a:hover {
+				color: var(--text-color);
+			}
+			ul li a:hover .title {
+				text-decoration: underline;
+			}
+			ul li .title {
+				color: var(--accent);
+				margin: 0;
+			}
+			ul li .description {
+				font-size: 1rem;
+			}
+			ul li .metadata {
+				display: flex;
+				line-height: 1.1;
+				gap: 1em;
+				margin-top: 1.5rem;
+				font-size: 0.9rem;
+			}
+			ul li .stack {
+				font-size: 0.9rem;
+				display: flex;
+				
+			}
+			.stack .stack-icon {
+				position: relative;
+				top: 1px;
+				display: inline-block;
+				width: 12px;
+				height: 12px;
+				border: .0625rem solid #ffffff26;
+				border-radius: 50%;
+				margin-right: .2em;
+			}
+			.more-button {
+				width: 100%;
+				margin-top: 1rem;
+			}
+			@media (max-width: 720px) {
+				
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Project</h1>
+			<section>
+				<ul>
+					{
+						posts.map((post) => (
+							<li>
+								<a href={`/project/${post.id}/`}>
+									<div>
+										<h4 class="title">{post.data.title}</h4>
+										<div class="description">{post.data.description}</div>
+										<div class="metadata">
+											{
+												post.data.stacks && 
+												post.data.stacks.map((stack)=> (
+													<span class="stack">
+														<span class="stack-icon" style={`background-color:${stackColors[stack] || 'grey'}`}></span>
+														<span>{stack}</span>
+													</span>
+												))
+												
+											}
+											<span>Created on <FormattedDate date={post.data.pubDate}/></span>
+										</div>
+									</div>
+									
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+			<button class="more-button">View More on Github</button>
+		</main>
+		<Footer />
+	</body>
+</html>

@@ -4,16 +4,18 @@
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
 
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 :root {
 	--accent: #c13e3e;
 	--accent-rgb: 193,62,62;
-	--bg-primary: #000;
-	--bg-secondary: #221818;
-	--text-color: #fff;
+	--bg-primary: 255,255,255;
+	--bg-secondary: 0, 0, 0;
+	--text-color: #000;
 	--text-muted: #888888;
-	--border-radius: 2rem;
-	--border-radius-sm: calc(2rem/2);
-	--border-radius-xs: calc(2rem/4);
+	--border-radius: 4px;
+	--border-radius-sm: calc(var(--border-radius)/2);
+	--border-radius-xs: calc(var(--border-radius)/4);
 }
 @font-face {
 	font-family: "Atkinson";
@@ -30,12 +32,11 @@
 	font-display: swap;
 }
 body {
-	font-family: "Atkinson", sans-serif;
+	font-family: "Barlow", sans-serif;
 	margin: 0;
 	padding: 0;
 	text-align: left;
-	background: var(--bg-primary);
-	background-size: 100% 600px;
+	background-color: rgb(var(--bg-primary));
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 	color: var(--text-color);
@@ -58,21 +59,22 @@ h6 {
 	margin: 0 0 0.5rem 0;
 	color: var(--text-color);
 	line-height: 1.2;
+	font-family: "Barlow Semi Condensed", sans-serif;
 }
 h1 {
-	font-size: 3.052em;
-}
-h2 {
 	font-size: 2.441em;
 }
-h3 {
+h2 {
 	font-size: 1.953em;
 }
-h4 {
+h3 {
 	font-size: 1.563em;
 }
-h5 {
+h4 {
 	font-size: 1.25em;
+}
+h4 {
+	font-size: 1em;
 }
 strong,
 b {
@@ -107,12 +109,13 @@ img {
 }
 code {
 	padding: 2px 5px;
-	background-color: #24292e;
+	background-color: rgb(var(--bg-secondary));
 	color: #e1e4e8;
-	border-radius: var(--border-radius-xs);
+	border-radius: var(--border-radius-sm);
 }
 pre {
-	padding: var(--border-radius);
+	background-color: rgb(var(--bg-secondary)) !important;
+	padding: calc(var(--border-radius) + .5em);
 	border-radius: var(--border-radius);
 }
 pre > code {
@@ -128,7 +131,17 @@ hr {
 	border: none;
 	border-top: 1px solid var(--text-muted);
 }
-.bevel {
+button {
+	background-color: #000;
+	color: #fff;
+	border: 0;
+	padding: 1em 2em;
+	cursor: pointer;
+}
+button:hover {
+	background-color: var(--accent);
+}
+.emboss {
 	background-color: rgba(255, 255, 255, 0.1);
 	backdrop-filter: blur(.75rem);
 	outline: .1em solid rgba(0, 0, 0, 0.05);
@@ -138,6 +151,13 @@ hr {
 	border-right: .1em solid rgba(255, 255, 255, 0.025);
 	border-bottom: .1em solid rgba(255, 255, 255, 0.025);
 	
+}
+.deboss {
+	background-color: rgba(0,0,0, 0.25);
+	backdrop-filter: blur(.75rem);
+	border-radius: var(--border-radius);
+	box-shadow: inset .15em .15em .1em rgba(0, 0, 0, 0.5),  0 0 .25em rgba(255, 255, 255, 0.1);
+	border: .1em solid rgba(255, 255, 255, 0.15);
 }
 
 @media (max-width: 720px) {

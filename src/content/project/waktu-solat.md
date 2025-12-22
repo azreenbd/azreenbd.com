@@ -2,7 +2,7 @@
 title: 'Waktu Solat'
 description: "A Vue.js build that display Islamic prayer time from JAKIM's e-Solat API"
 stacks: ['Vue']
-pubDate: 'Jul 15 2022'
+pubDate: '2021-08-30'
 heroImage: '../../assets/project/solat.png'
 ---
 

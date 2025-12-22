@@ -107,11 +107,15 @@ img {
 	height: auto;
 	border-radius: var(--border-radius);
 }
-code {
+code, .badge {
 	padding: 2px 5px;
 	background-color: rgb(var(--bg-secondary));
 	color: #e1e4e8;
 	border-radius: var(--border-radius-sm);
+}
+.badge {
+	font-size: .9em;
+	white-space: nowrap;
 }
 pre {
 	background-color: rgb(var(--bg-secondary)) !important;

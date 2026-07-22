@@ -2,7 +2,7 @@
 title: "How to write a post on this site"
 description: "A quick reference for the frontmatter fields and formatting supported by blog posts here."
 pubDate: 2026-07-20
-tags: ["Meta", "Reference"]
+tags: ["Reference"]
 ---
 
 This post doubles as a template. Every blog entry is a markdown file in

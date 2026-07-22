@@ -1,21 +1,17 @@
 ---
-title: "Hello, World — the new site"
-description: "Why I rebuilt my portfolio with Astro, Radix UI and Tailwind, and how the new setup works."
+title: "Hello, World"
+description: "Thus the new website was born. This time with Astro, Radix UI and Tailwind."
 pubDate: 2026-07-22
-tags: ["Meta", "Astro"]
+tags: ["Astro"]
 ---
 
-I finally rebuilt this site. The old version was a single hand-written HTML page
-driven by Vue from a CDN — fine for a while, but adding anything new meant
-editing a big blob of markup. This rewrite fixes that.
+I finally revamp my portfolio website! The old version was raw, single page HTML driven by Vue from a CDN, fine for what it is, but adding anything new was a chore.
+
+But honestly, I just wanted to try [Astro](https://astro.build).
 
 ## What changed
 
-The site is now built with [Astro](https://astro.build), which ships zero
-JavaScript by default and only hydrates the interactive pieces (the theme
-toggle and the mobile menu) as small React islands using
-[Radix UI](https://www.radix-ui.com/) primitives. Everything is styled with
-Tailwind CSS.
+The site is now built with [Astro](https://astro.build), which ships zero JavaScript by default and only hydrates the interactive pieces as small React islands using [Radix UI](https://www.radix-ui.com/) primitives. Everything is styled with Tailwind CSS.
 
 ## How I add content now
 

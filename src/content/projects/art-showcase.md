@@ -6,7 +6,6 @@ repo: "https://github.com/azreenbd/art-showcase-website"
 cover: "/img/portfolio/art-showcase.jpg"
 year: 2019
 order: 90
-featured: true
 ---
 
 The Art Showcase Website was the first iteration of the idea that later became

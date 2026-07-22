@@ -15,7 +15,7 @@ const isActive = (href: string) =>
   <div class="mx-auto flex max-w-5xl items-center justify-between px-5 py-3">
     <a href="/" class="flex items-center gap-3" aria-label={SITE.name}>
       <Logo class="h-8 w-auto" />
-      <span class="hidden text-lg uppercase tracking-wide sm:inline">
+      <span class="hidden text-lg tracking-wide sm:inline font-display font-medium">
         {SITE.shortName}
       </span>
     </a>
@@ -27,7 +27,7 @@ const isActive = (href: string) =>
             <a
               href={item.href}
               class:list={[
-                "rounded-md px-3 py-2 text-sm uppercase tracking-wide transition-colors",
+                "rounded-md px-3 py-2 text-sm tracking-wide transition-colors font-semibold",
                 isActive(item.href)
                   ? "text-brand"
                   : "text-fg-muted hover:text-fg",

@@ -40,8 +40,8 @@
   --color-fg: var(--fg);
   --color-fg-muted: var(--fg-muted);
 
-  --font-sans: "Barlow Semi Condensed", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Barlow Condensed", "Barlow Semi Condensed", sans-serif;
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Parkinsans", sans-serif;
 }
 
 html {
@@ -58,7 +58,6 @@ body {
 /* Headings use the condensed display face, uppercase to echo the brand. */
 h1, h2, h3, h4, h5 {
   font-family: var(--font-display);
-  letter-spacing: 0.01em;
 }
 
 /* Long-form article content (blog + project bodies). */

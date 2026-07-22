@@ -6,6 +6,7 @@ link: "http://shuffler.azreenbd.com/"
 cover: "/img/portfolio/shuffler.png"
 year: 2021
 order: 70
+featured: true
 ---
 
 YouTube Shuffler fixes a long-standing annoyance: YouTube's built-in shuffle
@@ -15,7 +16,7 @@ a playlist so every video plays before any repeats.
 ## Highlights
 
 - True random shuffle with no early repeats
-- Works with any public YouTube playlist
+- Works with any public or unlisted YouTube playlist
 - Lightweight, single-page interface
 
 ## Stack

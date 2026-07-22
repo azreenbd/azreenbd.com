@@ -21,14 +21,18 @@ const posts = (await getCollection("blog", (p) => !p.data.draft))
 
 <BaseLayout>
   <!-- Hero -->
-  <section class="flex flex-col items-start gap-8 py-8 sm:flex-row sm:items-center">
-    <Logo class="h-28 w-auto shrink-0 rounded-lg" />
+  <section>
+    <div class="flex flex-col items-start gap-8 py-8 sm:flex-row">
+      <Logo class="h-28 w-auto shrink-0" />
+      <div>
+        <h1 class="text-4xl uppercase leading-none sm:text-5xl font-semibold">
+          Naszrul Azreen
+          <span class="block text-brand">Badarudin</span>
+        </h1>
+        <p class="mt-3 text-xl text-fg-muted">{SITE.title}</p>
+      </div>
+    </div>
     <div>
-      <h1 class="text-4xl uppercase leading-none sm:text-5xl">
-        {SITE.shortName}
-        <span class="block text-brand">Badarudin</span>
-      </h1>
-      <p class="mt-3 text-xl text-fg-muted">{SITE.title}</p>
       <ul class="mt-4 flex flex-wrap gap-2">
         {
           SKILLS.map((skill) => (
@@ -42,13 +46,14 @@ const posts = (await getCollection("blog", (p) => !p.data.draft))
         <SocialLinks socials={SOCIALS} client:visible />
       </div>
     </div>
+    
   </section>
 
   <!-- Featured projects -->
   <section class="mt-16">
     <div class="flex items-baseline justify-between">
-      <h2 class="text-2xl uppercase">Featured Projects</h2>
-      <a href="/projects" class="text-sm uppercase text-brand hover:underline">
+      <h2 class="text-2xl font-semibold">Featured Projects</h2>
+      <a href="/projects" class="text-sm  text-brand hover:underline">
         View all →
       </a>
     </div>
@@ -73,8 +78,8 @@ const posts = (await getCollection("blog", (p) => !p.data.draft))
     posts.length > 0 && (
       <section class="mt-16">
         <div class="flex items-baseline justify-between">
-          <h2 class="text-2xl uppercase">Latest Writing</h2>
-          <a href="/blog" class="text-sm uppercase text-brand hover:underline">
+          <h2 class="text-2xl font-semibold">Blog</h2>
+          <a href="/blog" class="text-sm text-brand hover:underline">
             View all →
           </a>
         </div>

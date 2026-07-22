@@ -5,10 +5,9 @@
 
 export const SITE = {
   name: "Naszrul Azreen Badarudin",
-  shortName: "Naszrul Azreen",
+  shortName: "azreenbd",
   title: "Full Stack Web Developer",
-  description:
-    "Full Stack Web Developer with 4+ years of experience building web applications.",
+  description: "Full Stack Web Developer with 4+ years of experience building web applications.",
   url: "https://azreenbd.com",
   email: "azreen.bd@gmail.com",
 };
@@ -23,11 +22,15 @@ export const SKILLS = [
   "Vue.js",
   "Laravel",
   "Express.js",
+  "Hono",
   "MySQL",
+  "SQLite",
   "MongoDB",
   "Node.js",
   "Nginx",
   "DevOps",
+  "AWS",
+  "Cloudflare",
 ];
 
 // `icon` maps to a react-icons key handled in SocialLinks.tsx

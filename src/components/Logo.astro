@@ -1,0 +1,25 @@
+---
+interface Props {
+  class?: string;
+  /** color of the monogram square */
+  square?: string;
+}
+const { class: className, square = "var(--brand)" } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 70.17 115"
+  class={className}
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label="Naszrul Azreen Badarudin monogram"
+  style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"
+>
+  <rect x="0" y="0" width="70.17" height="115" style={`fill:${square};`}></rect>
+  <g style="fill:#fff;">
+    <path d="M17.34,15.472l-0,44.83l-9.34,-0l0,-52.302l14.945,0c5.157,-0 9.338,4.181 9.338,9.338c0,15.041 0,42.964 0,42.964l-9.34,-0l0,-44.83l-5.603,-0Z"></path>
+    <path d="M52.83,15.472l0,44.83l9.34,-0l-0,-52.302l-14.945,0c-5.158,-0 -9.338,4.181 -9.338,9.338c-0,15.041 -0,42.964 -0,42.964l9.339,-0l0,-44.83l5.604,-0Z"></path>
+    <path d="M17.338,107c0.001,-0 14.945,-0 14.945,-0l0,-0.002c0,-4.125 -3.344,-7.47 -7.47,-7.47l-7.473,0l-0,-24.283l5.603,0l0,3.736l9.34,0l0,-11.207c0,-0 -14.944,-0 -14.945,-0c-5.157,-0 -9.338,4.18 -9.338,9.338c0,6.211 0,14.339 0,20.55c0,5.157 4.181,9.338 9.338,9.338Z"></path>
+    <path d="M52.83,92.057l-5.604,-0l0,-24.283l-9.339,-0l-0,25.3l8.405,-0l0,5.426l-8.405,-0l-0,8.5l9.339,-0l0,-7.472l5.604,0l0,7.472l9.34,-0l-0,-8.5l-8.406,-0l0,-5.426l8.406,-0l-0,-25.3l-9.34,-0l0,24.283Z"></path>
+  </g>
+</svg>

@@ -1,0 +1,45 @@
+---
+import Logo from "./Logo.astro";
+import ThemeToggle from "./ThemeToggle.tsx";
+import MobileNav from "./MobileNav.tsx";
+import { NAV, SITE } from "../config";
+
+const pathname = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === "/" ? pathname === "/" : pathname.startsWith(href);
+---
+
+<header
+  class="sticky top-0 z-30 border-b border-border bg-bg/80 backdrop-blur-md"
+>
+  <div class="mx-auto flex max-w-5xl items-center justify-between px-5 py-3">
+    <a href="/" class="flex items-center gap-3" aria-label={SITE.name}>
+      <Logo class="h-8 w-auto" />
+      <span class="hidden text-lg uppercase tracking-wide sm:inline">
+        {SITE.shortName}
+      </span>
+    </a>
+
+    <div class="flex items-center gap-2">
+      <nav class="mr-2 hidden items-center gap-1 md:flex">
+        {
+          NAV.map((item) => (
+            <a
+              href={item.href}
+              class:list={[
+                "rounded-md px-3 py-2 text-sm uppercase tracking-wide transition-colors",
+                isActive(item.href)
+                  ? "text-brand"
+                  : "text-fg-muted hover:text-fg",
+              ]}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+      <ThemeToggle client:load />
+      <MobileNav nav={NAV} pathname={pathname} client:load />
+    </div>
+  </div>
+</header>

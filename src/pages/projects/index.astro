@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+
+const projects = (await getCollection("projects", (p) => !p.data.draft)).sort(
+  (a, b) => b.data.order - a.data.order
+);
+---
+
+<BaseLayout
+  title="Projects"
+  description="Selected projects by Naszrul Azreen Badarudin — web apps, games and tools."
+>
+  <header class="border-b border-border pb-6">
+    <h1 class="text-4xl uppercase">Projects</h1>
+    <p class="mt-2 text-fg-muted">
+      A selection of things I've designed and built.
+    </p>
+  </header>
+
+  <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      projects.map((p) => (
+        <ProjectCard
+          href={`/projects/${p.id}`}
+          title={p.data.title}
+          description={p.data.description}
+          tags={p.data.tags}
+          cover={p.data.cover}
+          year={p.data.year}
+        />
+      ))
+    }
+  </div>
+</BaseLayout>

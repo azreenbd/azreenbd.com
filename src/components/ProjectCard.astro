@@ -1,0 +1,47 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  tags?: string[];
+  cover?: string;
+  year?: number;
+}
+const { href, title, description, tags = [], cover, year } = Astro.props;
+---
+
+<a
+  href={href}
+  class="group flex flex-col overflow-hidden rounded-xl border border-border bg-surface transition-all hover:-translate-y-1 hover:border-brand hover:shadow-lg"
+>
+  <div class="relative aspect-video overflow-hidden bg-brand/20">
+    {
+      cover && (
+        <img
+          src={cover}
+          alt={title}
+          loading="lazy"
+          class="h-full w-full object-cover object-top opacity-80 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100"
+        />
+      )
+    }
+  </div>
+  <div class="flex flex-1 flex-col p-5">
+    <div class="flex items-baseline justify-between gap-2">
+      <h3 class="text-xl uppercase">{title}</h3>
+      {year && <span class="text-sm text-fg-muted">{year}</span>}
+    </div>
+    <p class="mt-2 flex-1 text-sm text-fg-muted">{description}</p>
+    {
+      tags.length > 0 && (
+        <ul class="mt-4 flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <li class="rounded-full border border-border px-2.5 py-0.5 text-xs text-fg-muted">
+              {tag}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</a>

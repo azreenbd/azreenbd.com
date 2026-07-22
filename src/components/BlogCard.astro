@@ -1,0 +1,39 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  pubDate: Date;
+  tags?: string[];
+}
+const { href, title, description, pubDate, tags = [] } = Astro.props;
+const dateStr = pubDate.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
+---
+
+<a
+  href={href}
+  class="group flex flex-col rounded-xl border border-border bg-surface p-5 transition-all hover:-translate-y-1 hover:border-brand hover:shadow-lg"
+>
+  <time datetime={pubDate.toISOString()} class="text-xs uppercase tracking-wide text-fg-muted">
+    {dateStr}
+  </time>
+  <h3 class="mt-1 text-xl uppercase transition-colors group-hover:text-brand">
+    {title}
+  </h3>
+  <p class="mt-2 text-sm text-fg-muted">{description}</p>
+  {
+    tags.length > 0 && (
+      <ul class="mt-4 flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <li class="rounded-full border border-border px-2.5 py-0.5 text-xs text-fg-muted">
+            {tag}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</a>

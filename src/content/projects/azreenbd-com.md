@@ -1,6 +1,6 @@
 ---
 title: "azreenbd.com"
-description: "This very site — a portfolio and blog built with Astro, Radix UI and Tailwind CSS, deployed on GitHub Pages."
+description: "This very site; a portfolio and blog built with Astro, Radix UI and Tailwind CSS, deployed on GitHub Pages."
 tags: ["Astro", "React", "Radix UI", "Tailwind CSS"]
 link: "https://azreenbd.com/"
 repo: "https://github.com/azreenbd/azreenbd.github.io"

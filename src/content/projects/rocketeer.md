@@ -9,7 +9,7 @@ order: 50
 ---
 
 Rocketeer is a minimalist Android game controlled entirely with a single tap.
-Everything — from the code to the art and design — was made from scratch.
+Everything, from the code to the art and design, was made from scratch.
 
 ## Highlights
 

@@ -22,7 +22,7 @@ This post doubles as a template. Every blog entry is a markdown file in
 
 ## Formatting
 
-Standard markdown works — **bold**, *italic*, [links](https://azreenbd.com),
+Standard markdown works; **bold**, *italic*, [links](https://azreenbd.com),
 lists, tables, blockquotes and code blocks:
 
 > Keep it simple.

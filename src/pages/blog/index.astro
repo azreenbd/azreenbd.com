@@ -10,7 +10,7 @@ const posts = (await getCollection("blog", (p) => !p.data.draft)).sort(
 
 <BaseLayout
   title="Blog"
-  description="Notes and writing by Naszrul Azreen Badarudin."
+  description="A collection of notes and writing from azreenbd."
 >
   <header class="border-b border-border pb-6">
     <h1 class="text-4xl uppercase font-semibold">Blog</h1>
@@ -19,7 +19,7 @@ const posts = (await getCollection("blog", (p) => !p.data.draft)).sort(
 
   {
     posts.length === 0 ? (
-      <p class="mt-8 text-fg-muted">No posts yet — check back soon.</p>
+      <p class="mt-8 text-fg-muted">No posts yet, check back soon.</p>
     ) : (
       <div class="mt-8 grid gap-5 sm:grid-cols-2">
         {posts.map((p) => (

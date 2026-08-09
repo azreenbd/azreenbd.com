@@ -15,7 +15,7 @@ const projects = defineCollection({
     description: z.string(),
     // tech stack / keywords shown as tags
     tags: z.array(z.string()).default([]),
-    // external live demo or repo (optional) — shown as a button
+    // external live demo or repo (optional) - shown as a button
     link: z.string().url().optional(),
     repo: z.string().url().optional(),
     // thumbnail path relative to /public (e.g. /img/portfolio/scroll.jpg)

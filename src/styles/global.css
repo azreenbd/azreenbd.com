@@ -5,7 +5,7 @@
 
 /*
   ------------------------------------------------------------------
-  Design tokens — edit these to re-skin the whole site.
+  Design tokens - edit these to re-skin the whole site.
   Semantic colors are defined per-theme below, then mapped into
   Tailwind utilities (bg-surface, text-fg, text-brand, ...) via @theme.
   ------------------------------------------------------------------

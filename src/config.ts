@@ -1,13 +1,13 @@
 /*
-  Central site config — edit this one file to update your identity,
+  Central site config - edit this one file to update your identity,
   navigation, skills and social links across the whole site.
 */
 
 export const SITE = {
-  name: "Naszrul Azreen Badarudin",
+  name: "Naszrul Azreen (azreenbd)",
   shortName: "azreenbd",
   title: "Full Stack Web Developer",
-  description: "Full Stack Web Developer with 4+ years of experience building web applications.",
+  description: "Full Stack Web Developer with 5+ years of experience building web applications.",
   url: "https://azreenbd.com",
   email: "azreen.bd@gmail.com",
 };

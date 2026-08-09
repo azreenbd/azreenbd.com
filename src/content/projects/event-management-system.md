@@ -1,6 +1,6 @@
 ---
 title: "Event Management System"
-description: "A platform to manage events — create events, register committee members and attendees. Built purely with HTML, CSS and PHP."
+description: "A platform to manage events; create events, register committee members and attendees. Built purely with HTML, CSS and PHP."
 tags: ["PHP", "HTML5", "CSS3", "MySQL"]
 repo: "https://github.com/azreenbd/event-management-web"
 cover: "/img/portfolio/evemasys.jpg"

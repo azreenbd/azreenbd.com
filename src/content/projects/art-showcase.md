@@ -1,6 +1,6 @@
 ---
 title: "Art Showcase Website"
-description: "The original base of the Scroll.club project — a platform where users upload artwork, follow other artists, and see a dashboard of the latest work from people they follow."
+description: "The original base of the Scroll.club project; a platform where users upload artwork, follow other artists, and see a dashboard of the latest work from people they follow."
 tags: ["Laravel", "PHP", "HTML5", "CSS3", "MySQL"]
 repo: "https://github.com/azreenbd/art-showcase-website"
 cover: "/img/portfolio/art-showcase.jpg"

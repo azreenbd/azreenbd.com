@@ -16,20 +16,20 @@ const dateStr = pubDate.toLocaleDateString("en-US", {
 
 <a
   href={href}
-  class="group flex flex-col rounded-xl border border-border bg-surface p-5 transition-all hover:-translate-y-1 hover:border-brand hover:shadow-lg"
+  class="group flex flex-col rounded-xl border border-border bg-surface p-5 transition-all highlight:-translate-y-1 highlight:bg-brand highlight:shadow-[0_4px_0_0_color-mix(in_srgb,var(--color-brand),black_40%)]"
 >
-  <time datetime={pubDate.toISOString()} class="text-xs uppercase tracking-wide text-fg-muted">
+  <time datetime={pubDate.toISOString()} class="text-xs uppercase tracking-wide text-fg-muted transition-colors group-highlight:text-white/80">
     {dateStr}
   </time>
-  <h3 class="mt-1 text-xl font-medium transition-colors group-hover:text-brand">
+  <h3 class="mt-1 text-xl font-medium transition-colors group-highlight:text-white">
     {title}
   </h3>
-  <p class="mt-2 text-sm text-fg-muted">{description}</p>
+  <p class="mt-2 text-sm text-fg-muted transition-colors group-highlight:text-white/80">{description}</p>
   {
     tags.length > 0 && (
       <ul class="mt-4 flex flex-wrap gap-2">
         {tags.map((tag) => (
-          <li class="rounded-full border border-border px-2.5 py-0.5 text-xs text-fg-muted">
+          <li class="rounded-full border border-border px-2.5 py-0.5 text-xs text-fg-muted transition-colors group-highlight:border-white/40 group-highlight:text-white/80">
             {tag}
           </li>
         ))}

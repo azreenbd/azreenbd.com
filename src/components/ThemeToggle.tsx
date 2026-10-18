@@ -18,7 +18,7 @@ function readMode(): Mode {
 function applyMode(mode: Mode) {
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const isDark = mode === "dark" || (mode === "system" && prefersDark);
-  document.documentElement.classList.toggle("dark", isDark);
+  document.documentElement.classList.toggle("reader-light", !isDark);
 }
 
 export default function ThemeToggle() {
@@ -62,7 +62,7 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={cycle}
-      aria-label={`Theme: ${mode} (click to change)`}
+      aria-label={`Article theme: ${mode} (click to change)`}
       className="grid h-9 w-9 place-items-center rounded-md border border-border text-fg-muted transition-colors hover:border-brand hover:text-brand">
       <Icon size={16} />
     </button>

@@ -1,6 +1,5 @@
 ---
 import Logo from "./Logo.astro";
-import ThemeToggle from "./ThemeToggle.tsx";
 import MobileNav from "./MobileNav.tsx";
 import { NAV, SITE } from "../config";
 
@@ -9,10 +8,11 @@ const isActive = (href: string) =>
   href === "/" ? pathname === "/" : pathname.startsWith(href);
 ---
 
-<header
-  class="sticky top-0 z-30 border-b border-border bg-bg/50 bg-linear-to-b from-bg to-bg/0 backdrop-blur-md"
->
-  <div class="mx-auto flex max-w-5xl items-center justify-between px-5 py-3">
+<!-- pointer-events-none: the transparent gutter around the pill must not block clicks on content scrolling under it. -->
+<header class="pointer-events-none sticky top-3 z-50 mx-auto mt-3 w-full max-w-5xl px-3">
+  <div
+    class="pointer-events-auto flex items-center justify-between rounded-2xl border border-border bg-surface px-4 py-2 shadow-xl shadow-black/15"
+  >
     <a href="/" class="flex items-center gap-3" aria-label={SITE.name}>
       <Logo class="h-8 w-auto" />
       <span class="hidden text-lg tracking-wide sm:inline font-display font-medium">
@@ -38,7 +38,6 @@ const isActive = (href: string) =>
           ))
         }
       </nav>
-      <ThemeToggle client:load />
       <MobileNav nav={NAV} pathname={pathname} client:load />
     </div>
   </div>

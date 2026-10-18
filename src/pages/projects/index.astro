@@ -12,14 +12,14 @@ const projects = (await getCollection("projects", (p) => !p.data.draft)).sort(
   title="Projects"
   description="Selected projects by azreenbd; web apps, games and tools."
 >
-  <header class="border-b border-border pb-6">
+  <header class="pb-6">
     <h1 class="text-4xl uppercase font-semibold">Projects</h1>
     <p class="mt-2 text-fg-muted">
       A selection of things I've designed and built.
     </p>
   </header>
 
-  <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+  <div data-highlight="first" class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
     {
       projects.map((p) => (
         <ProjectCard
@@ -34,3 +34,7 @@ const projects = (await getCollection("projects", (p) => !p.data.draft)).sort(
     }
   </div>
 </BaseLayout>
+
+<script>
+  import "../../scripts/auto-highlight";
+</script>

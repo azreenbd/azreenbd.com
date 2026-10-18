@@ -16,34 +16,25 @@ export default function MobileNav({
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
+    // Non-modal so the header trigger stays clickable as the close button; a modal dialog
+    // blocks pointer events and hides everything outside its content.
+    <Dialog.Root open={open} onOpenChange={setOpen} modal={false}>
       <Dialog.Trigger asChild>
         <button
           type="button"
-          aria-label="Open menu"
+          aria-label={open ? "Close menu" : "Open menu"}
           className="grid h-9 w-9 place-items-center rounded-md border border-border text-fg md:hidden"
         >
-          <FaBars size={16} />
+          {open ? <FaXmark size={18} /> : <FaBars size={16} />}
         </button>
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm data-[state=open]:animate-[fade_150ms_ease-out]" />
-        <Dialog.Content className="fixed right-0 top-0 z-50 flex h-full w-72 max-w-[80%] flex-col gap-2 border-l border-border bg-surface p-6 shadow-xl focus:outline-none">
-          <div className="mb-4 flex items-center justify-between">
-            <Dialog.Title className="text-lg uppercase tracking-wide">
-              Menu
-            </Dialog.Title>
-            <Dialog.Close asChild>
-              <button
-                type="button"
-                aria-label="Close menu"
-                className="grid h-9 w-9 place-items-center rounded-md text-fg-muted hover:text-brand"
-              >
-                <FaXmark size={18} />
-              </button>
-            </Dialog.Close>
-          </div>
+        {/* Dialog.Overlay only renders in modal mode. z-40 sits under the header's z-50 so the header stays sharp. */}
+        <div className="fixed inset-0 z-40 bg-black/10 backdrop-blur-sm animate-[fade_150ms_ease-out]" />
+        {/* top-[74px] = header's top-3 (12px) + bar height (~54px) + 8px gap; update it if the header bar's height changes. */}
+        <Dialog.Content className="fixed inset-x-3 top-[74px] z-50 flex origin-top flex-col gap-2 rounded-2xl border border-border bg-surface p-4 shadow-xl shadow-black/15 focus:outline-none data-[state=open]:animate-[menu-pop_150ms_ease-out]">
+          <Dialog.Title className="sr-only">Menu</Dialog.Title>
           <Dialog.Description className="sr-only">
             Site navigation
           </Dialog.Description>
@@ -54,7 +45,7 @@ export default function MobileNav({
                 href={item.href}
                 className={`rounded-md px-3 py-2 text-lg uppercase tracking-wide transition-colors ${
                   isActive(item.href)
-                    ? "bg-brand/10 text-brand"
+                    ? "bg-brand text-fg"
                     : "text-fg hover:bg-border/50"
                 }`}
               >

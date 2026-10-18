@@ -1,0 +1,124 @@
+<canvas
+  id="dot-grid"
+  aria-hidden="true"
+  class="pointer-events-none fixed inset-0 -z-10 h-full w-full"
+></canvas>
+
+<style>
+  /* No-JS fallback: the canvas bitmap paints over its own CSS background once the script runs.
+     Keep <body> without a background, or it hides this canvas (z-index -10). */
+  #dot-grid {
+    background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+    background-size: var(--dot-gap) var(--dot-gap);
+  }
+</style>
+
+<script>
+  const RADIUS = 960; // cursor reach, px
+  const PUSH = 16; // max displacement right under the cursor, px
+  const EASE = 0.12; // share of the remaining distance each dot moves per frame
+
+  const canvas = document.getElementById("dot-grid") as HTMLCanvasElement;
+  const ctx = canvas.getContext("2d")!;
+  const root = document.documentElement;
+  const staticOnly = matchMedia(
+    "(prefers-reduced-motion: reduce), (hover: none)"
+  ).matches;
+
+  let w = 0, h = 0, cols = 0, rows = 0;
+  let gap = 32, bg = "", dot = "";
+  let offsets = new Float32Array(0); // [x, y] offset per dot
+  let mx = -1e4, my = -1e4;
+  let frame = 0;
+
+  function readTheme() {
+    const s = getComputedStyle(root);
+    bg = s.getPropertyValue("--bg").trim();
+    dot = s.getPropertyValue("--dot").trim();
+    gap = parseFloat(s.getPropertyValue("--dot-gap")) || 32;
+  }
+
+  function resize() {
+    const dpr = window.devicePixelRatio || 1;
+    w = innerWidth;
+    h = innerHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cols = Math.ceil(w / gap) + 1;
+    rows = Math.ceil(h / gap) + 1;
+    offsets = new Float32Array(cols * rows * 2);
+  }
+
+  // Returns true while any dot is still easing toward its target.
+  function draw() {
+    // Fill the background so the static CSS fallback dots stay hidden.
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = dot;
+    ctx.beginPath();
+    let moving = false;
+    for (let r = 0, i = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++, i += 2) {
+        // Centred in each tile to line up with the CSS radial-gradient fallback.
+        const x = c * gap + gap / 2;
+        const y = r * gap + gap / 2;
+        const dx = x - mx;
+        const dy = y - my;
+        const d = Math.hypot(dx, dy);
+        let tx = 0, ty = 0;
+        if (d > 0 && d < RADIUS) {
+          const f = (1 - d / RADIUS) ** 2 * PUSH;
+          tx = (dx / d) * f;
+          ty = (dy / d) * f;
+        }
+        const ox = (offsets[i] += (tx - offsets[i]) * EASE);
+        const oy = (offsets[i + 1] += (ty - offsets[i + 1]) * EASE);
+        if (Math.abs(tx - ox) > 0.05 || Math.abs(ty - oy) > 0.05) moving = true;
+        ctx.moveTo(x + ox + 1, y + oy);
+        ctx.arc(x + ox, y + oy, 1, 0, Math.PI * 2);
+      }
+    }
+    ctx.fill();
+    return moving;
+  }
+
+  // The loop stops once dots settle, so an idle page costs nothing.
+  function tick() {
+    frame = draw() ? requestAnimationFrame(tick) : 0;
+  }
+  function start() {
+    if (!frame) frame = requestAnimationFrame(tick);
+  }
+
+  readTheme();
+  resize();
+  draw();
+
+  addEventListener("resize", () => {
+    resize();
+    draw();
+  });
+
+  new MutationObserver(() => {
+    readTheme();
+    draw();
+  }).observe(root, { attributes: true, attributeFilter: ["class"] });
+
+  if (!staticOnly) {
+    addEventListener(
+      "pointermove",
+      (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        start();
+      },
+      { passive: true }
+    );
+    addEventListener("pointerout", (e) => {
+      if (e.relatedTarget) return;
+      mx = my = -1e4;
+      start();
+    });
+  }
+</script>

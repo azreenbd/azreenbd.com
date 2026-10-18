@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ThemeToggle from "../../components/ThemeToggle.tsx";
 import { FaArrowUpRightFromSquare, FaGithub } from "react-icons/fa6";
 
 export async function getStaticPaths() {
@@ -17,14 +18,17 @@ const { title, description, tags, link, repo, cover, year } = project.data;
 ---
 
 <BaseLayout title={title} description={description} image={cover}>
-  <a
-    href="/projects"
-    class="text-sm uppercase text-fg-muted transition-colors hover:text-brand"
-  >
-    ← Back to projects
-  </a>
+  <div class="flex items-center justify-between">
+    <a
+      href="/projects"
+      class="text-sm uppercase text-fg-muted transition-colors hover:text-brand"
+    >
+      ← Back to projects
+    </a>
+    <ThemeToggle client:load />
+  </div>
 
-  <article class="mt-6">
+  <article class="reader mt-6 rounded-xl border border-border bg-surface p-6 md:p-10">
     <header>
       <div class="flex items-baseline justify-between gap-3">
         <h1 class="text-4xl leading-tight font-medium">{title}</h1>

@@ -22,7 +22,7 @@ const SPOTS: { m?: [number, number]; d: [number, number] }[] = [
   data-skills={JSON.stringify(skills)}
   class="relative h-36 w-full sm:h-44 sm:flex-1"
 >
-  <ul class="sr-only">{skills.map((skill) => <li>{skill}</li>)}</ul>
+  <ul class="sr-only" aria-label="Skills">{skills.map((skill) => <li>{skill}</li>)}</ul>
   {
     SPOTS.map((spot, i) => (
       <span

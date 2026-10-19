@@ -23,7 +23,7 @@ const { title, description, tags, link, repo, cover, year } = project.data;
       href="/projects"
       class="text-sm uppercase text-fg-muted transition-colors hover:text-brand"
     >
-      ← Back to projects
+      <span aria-hidden="true">←</span> Back to projects
     </a>
     <ThemeToggle client:load />
   </div>
@@ -38,7 +38,7 @@ const { title, description, tags, link, repo, cover, year } = project.data;
 
       {
         tags.length > 0 && (
-          <ul class="mt-4 flex flex-wrap gap-2">
+          <ul aria-label="Tags" class="mt-4 flex flex-wrap gap-2">
             {tags.map((tag) => (
               <li class="rounded-full border border-border px-3 py-1 text-sm text-fg-muted">
                 {tag}
@@ -57,7 +57,7 @@ const { title, description, tags, link, repo, cover, year } = project.data;
               rel="noopener noreferrer"
               class="inline-flex items-center gap-2 rounded-md bg-brand px-4 py-2 text-sm uppercase tracking-wide text-white transition-colors hover:bg-brand-hover"
             >
-              <FaArrowUpRightFromSquare size={13} /> Visit
+              <FaArrowUpRightFromSquare size={13} aria-hidden="true" /> Visit<span class="sr-only"> (opens in new tab)</span>
             </a>
           )
         }
@@ -69,7 +69,7 @@ const { title, description, tags, link, repo, cover, year } = project.data;
               rel="noopener noreferrer"
               class="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm uppercase tracking-wide text-fg transition-colors hover:border-brand hover:text-brand"
             >
-              <FaGithub size={15} /> Source
+              <FaGithub size={15} aria-hidden="true" /> Source<span class="sr-only"> (opens in new tab)</span>
             </a>
           )
         }
@@ -80,7 +80,7 @@ const { title, description, tags, link, repo, cover, year } = project.data;
       cover && (
         <img
           src={cover}
-          alt={title}
+          alt={`Screenshot of ${title}`}
           class="mt-8 w-full rounded-xl border border-border object-cover"
         />
       )

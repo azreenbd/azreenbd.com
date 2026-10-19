@@ -31,16 +31,17 @@ export default function MobileNav({
 
       <Dialog.Portal>
         {/* top-[74px] = header's top-3 (12px) + bar height (~54px) + 8px gap; update it if the header bar's height changes. */}
-        <Dialog.Content className="fixed inset-x-3 top-[74px] z-50 flex origin-top flex-col gap-2 rounded-2xl border border-border bg-surface p-4 shadow-xl shadow-black/15 focus:outline-none data-[state=open]:animate-[menu-pop_150ms_ease-out]">
+        <Dialog.Content className="fixed inset-x-3 top-[74px] z-50 flex origin-top flex-col gap-2 rounded-2xl border border-border bg-surface p-4 shadow-xl shadow-black/15 focus:outline-none motion-safe:data-[state=open]:animate-[menu-pop_150ms_ease-out]">
           <Dialog.Title className="sr-only">Menu</Dialog.Title>
           <Dialog.Description className="sr-only">
             Site navigation
           </Dialog.Description>
-          <nav className="flex flex-col gap-1">
+          <nav aria-label="Main" className="flex flex-col gap-1">
             {nav.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
+                aria-current={isActive(item.href) ? "page" : undefined}
                 className={`rounded-md px-3 py-2 text-lg uppercase tracking-wide transition-colors ${
                   isActive(item.href)
                     ? "bg-brand text-fg"

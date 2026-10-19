@@ -20,14 +20,16 @@ export default function SocialLinks({
     <div className="flex items-center gap-4">
       {socials.map((s) => {
         const Icon = ICONS[s.icon] ?? FaEnvelope;
+        const external = s.href.startsWith("http");
         return (
           <a
             key={s.label}
             href={s.href}
             title={s.label}
-            aria-label={s.label}
-            target={s.href.startsWith("http") ? "_blank" : undefined}
-            rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
+            aria-label={external ? `${s.label} (opens in new tab)` : s.label}
+            target={external ? "_blank" : undefined}
+            // rel="me" tells search engines these profiles belong to the site owner.
+            rel={external ? "me noopener noreferrer" : "me"}
             className="text-fg-muted transition-colors hover:text-brand"
           >
             <Icon size={size} />

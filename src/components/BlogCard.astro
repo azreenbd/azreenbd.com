@@ -5,8 +5,13 @@ interface Props {
   description: string;
   pubDate: Date;
   tags?: string[];
+  // 2 on pages with no h2 above the grid, so heading levels don't skip.
+  headingLevel?: 2 | 3;
 }
-const { href, title, description, pubDate, tags = [] } = Astro.props;
+const { href, title, description, pubDate, tags = [], headingLevel = 3 } = Astro.props;
+const Heading = `h${headingLevel}` as const;
+// The whole card is one link; point its name and description at the parts, so screen readers don't read every tag.
+const id = `card${href.replace(/[^a-z0-9]+/gi, "-")}`;
 const dateStr = pubDate.toLocaleDateString("en-US", {
   year: "numeric",
   month: "short",
@@ -16,15 +21,17 @@ const dateStr = pubDate.toLocaleDateString("en-US", {
 
 <a
   href={href}
+  aria-labelledby={`${id}-title`}
+  aria-describedby={`${id}-desc`}
   class="group flex flex-col rounded-xl border border-border bg-surface p-5 transition-all highlight:-translate-y-1 highlight:bg-brand highlight:shadow-[0_4px_0_0_color-mix(in_srgb,var(--color-brand),black_40%)]"
 >
   <time datetime={pubDate.toISOString()} class="text-xs uppercase tracking-wide text-fg-muted transition-colors group-highlight:text-white/80">
     {dateStr}
   </time>
-  <h3 class="mt-1 text-xl font-medium transition-colors group-highlight:text-white">
+  <Heading id={`${id}-title`} class="mt-1 text-xl font-medium transition-colors group-highlight:text-white">
     {title}
-  </h3>
-  <p class="mt-2 text-sm text-fg-muted transition-colors group-highlight:text-white/80">{description}</p>
+  </Heading>
+  <p id={`${id}-desc`} class="mt-2 text-sm text-fg-muted transition-colors group-highlight:text-white/80">{description}</p>
   {
     tags.length > 0 && (
       <ul class="mt-4 flex flex-wrap gap-2">

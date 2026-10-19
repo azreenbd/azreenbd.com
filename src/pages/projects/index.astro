@@ -29,6 +29,7 @@ const projects = (await getCollection("projects", (p) => !p.data.draft)).sort(
           tags={p.data.tags}
           cover={p.data.cover}
           year={p.data.year}
+          headingLevel={2}
         />
       ))
     }

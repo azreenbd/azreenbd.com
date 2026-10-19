@@ -6,6 +6,7 @@
 export const SITE = {
   name: "Naszrul Azreen (azreenbd)",
   shortName: "azreenbd",
+  author: "Naszrul Azreen Badarudin",
   title: "Full Stack Web Developer",
   description: "Full Stack Web Developer with 5+ years of experience building web applications.",
   url: "https://azreenbd.com",

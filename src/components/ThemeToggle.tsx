@@ -63,7 +63,7 @@ export default function ThemeToggle() {
       type="button"
       onClick={cycle}
       aria-label={`Article theme: ${mode} (click to change)`}
-      className="grid h-9 w-9 place-items-center rounded-md border border-border text-fg-muted transition-colors hover:border-brand hover:text-brand">
+      className="grid bg-bg h-9 w-9 place-items-center rounded-md border border-border text-fg-muted transition-colors hover:border-brand hover:text-brand">
       <Icon size={16} />
     </button>
   );

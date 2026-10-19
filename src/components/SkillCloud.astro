@@ -1,0 +1,137 @@
+---
+interface Props {
+  skills: string[];
+}
+
+const { skills } = Astro.props;
+
+// Centres as % of the cloud: m = phones, d = sm and up. Spots without m only show from sm up.
+const SPOTS: { m?: [number, number]; d: [number, number] }[] = [
+  { m: [22, 18], d: [14, 20] },
+  { m: [72, 14], d: [48, 12] },
+  { m: [46, 50], d: [82, 22] },
+  { m: [20, 84], d: [30, 54] },
+  { m: [74, 82], d: [66, 50] },
+  { d: [18, 86] },
+  { d: [80, 82] },
+];
+---
+
+<div
+  data-skill-cloud
+  data-skills={JSON.stringify(skills)}
+  class="relative h-36 w-full sm:h-44 sm:flex-1"
+>
+  <ul class="sr-only">{skills.map((skill) => <li>{skill}</li>)}</ul>
+  {
+    SPOTS.map((spot, i) => (
+      <span
+        aria-hidden="true"
+        class:list={["spot absolute", !spot.m && "hidden sm:block"]}
+        style={`--mx:${(spot.m ?? spot.d)[0]}%;--my:${(spot.m ?? spot.d)[1]}%;--dx:${spot.d[0]}%;--dy:${spot.d[1]}%;--delay:${-i * 1.7}s`}
+      >
+        <span
+          data-skill
+          class="badge block whitespace-nowrap rounded-full border border-border px-3 py-1 text-sm text-fg-muted bg-bg"
+        >
+          {skills[i]}
+        </span>
+      </span>
+    ))
+  }
+</div>
+
+<style>
+  /* `translate` centres the spot; `transform` is left free for the float. */
+  .spot {
+    left: var(--mx);
+    top: var(--my);
+    translate: -50% -50%;
+    animation: float 7s ease-in-out var(--delay) infinite;
+  }
+  @media (width >= 40rem) {
+    .spot {
+      left: var(--dx);
+      top: var(--dy);
+    }
+  }
+
+  .badge {
+    transition: opacity 500ms, scale 500ms, filter 500ms;
+  }
+  .badge[data-out] {
+    opacity: 0;
+    scale: 0.6;
+    filter: blur(4px);
+  }
+  .badge[data-twinkle] {
+    animation: glow 1.4s ease-out;
+  }
+
+  @keyframes float {
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes glow {
+    from { border-color: var(--brand); color: var(--fg); }
+  }
+
+  /* Keep the swap as a plain cross-fade. */
+  @media (prefers-reduced-motion: reduce) {
+    .spot,
+    .badge[data-twinkle] {
+      animation: none;
+    }
+    .badge[data-out] {
+      scale: 1;
+      filter: none;
+    }
+  }
+</style>
+
+<script>
+  // Swaps one visible badge at a time for a skill that is not on screen, so every skill gets a turn.
+  const INTERVAL = 1800; // ms between swaps
+  const FADE = 500; // ms, matches the .badge transition
+
+  function setup(cloud: HTMLElement) {
+    const skills: string[] = JSON.parse(cloud.dataset.skills!);
+    const badges = [...cloud.querySelectorAll<HTMLElement>("[data-skill]")];
+    let next = 0;
+    let last: HTMLElement | undefined;
+    let timer = 0;
+
+    function swap() {
+      // offsetParent is null for the spots hidden below sm.
+      const shown = badges.filter((b) => b.offsetParent !== null);
+      const onScreen = new Set(shown.map((b) => b.textContent!.trim()));
+
+      let skill: string | undefined;
+      for (let i = 0; i < skills.length && !skill; i++) {
+        const candidate = skills[(next + i) % skills.length];
+        if (!onScreen.has(candidate)) {
+          skill = candidate;
+          next = (next + i + 1) % skills.length;
+        }
+      }
+      if (!skill) return;
+
+      const pool = shown.length > 1 ? shown.filter((b) => b !== last) : shown;
+      const badge = pool[Math.floor(Math.random() * pool.length)];
+      last = badge;
+      badge.removeAttribute("data-twinkle");
+      badge.setAttribute("data-out", "");
+      setTimeout(() => {
+        badge.textContent = skill;
+        badge.removeAttribute("data-out");
+        badge.setAttribute("data-twinkle", "");
+      }, FADE);
+    }
+
+    new IntersectionObserver(([entry]) => {
+      clearInterval(timer);
+      if (entry.isIntersecting) timer = window.setInterval(swap, INTERVAL);
+    }).observe(cloud);
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-skill-cloud]").forEach(setup);
+</script>

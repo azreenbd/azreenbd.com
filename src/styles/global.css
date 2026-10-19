@@ -28,6 +28,7 @@
   --fg: #f5f5f5;
   --fg-muted: #a3a3a3;
   --dot: #555555;
+  --dot-glow: #e5e5e5;
   --dot-gap: 32px;
 
   /* SVG data URIs can't read CSS vars, so colours are hard-coded. One cursor for both themes.
@@ -140,9 +141,6 @@ h1, h2, h3, h4, h5 {
   font-style: italic;
 }
 
-@keyframes fade {
-  from { opacity: 0; }
-}
 @keyframes menu-pop {
   from { opacity: 0; transform: translateY(-6px) scale(0.98); }
 }

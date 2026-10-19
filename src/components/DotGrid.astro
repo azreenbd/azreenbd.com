@@ -22,6 +22,7 @@
   const LEVELS = 12; // brightness steps, one fill call each
   const STAR_SHARE = 0.02; // share of dots twinkling at any moment
   const STAR_MIN = 3000, STAR_MAX = 7000; // one fade in + out, ms
+  const EGG_SIZE = 4.5; // ✦ tip-to-centre, px
 
   const canvas = document.getElementById("dot-grid") as HTMLCanvasElement;
   const ctx = canvas.getContext("2d")!;
@@ -39,6 +40,10 @@
   let stars: Star[] = [];
   let mx = -1e4, my = -1e4;
   let frame = 0;
+  // Easter egg: one dot drawn as ✦. Its spot is kept as a share of the grid, not an index,
+  // so it stays put when a mobile URL bar fires resize.
+  const eggX = Math.random(), eggY = Math.random();
+  let egg = -1;
 
   function readTheme() {
     const s = getComputedStyle(root);
@@ -59,6 +64,8 @@
     rows = Math.ceil(h / gap) + 1;
     offsets = new Float32Array(cols * rows * 2);
     shine = new Float32Array(cols * rows);
+    // The grid has an extra row and column past the edge; floor(w / gap) counts only on-screen dots.
+    egg = Math.floor(eggY * Math.floor(h / gap)) * cols + Math.floor(eggX * Math.floor(w / gap));
     const now = performance.now();
     stars = twinkle
       ? Array.from({ length: Math.ceil(cols * rows * STAR_SHARE) }, () => {
@@ -85,6 +92,22 @@
       const b = Math.sin((Math.PI * (now - s.start)) / s.dur) * s.peak;
       shine[s.i] = Math.max(shine[s.i], b);
     }
+  }
+
+  // Quadratic curves pulled to the centre give the concave sides of ✦.
+  function addDot(p: CanvasPath, x: number, y: number, star: boolean) {
+    if (!star) {
+      p.moveTo(x + 1, y);
+      p.arc(x, y, 1, 0, Math.PI * 2);
+      return;
+    }
+    const s = EGG_SIZE;
+    p.moveTo(x, y - s);
+    p.quadraticCurveTo(x, y, x + s, y);
+    p.quadraticCurveTo(x, y, x, y + s);
+    p.quadraticCurveTo(x, y, x - s, y);
+    p.quadraticCurveTo(x, y, x, y - s);
+    p.closePath();
   }
 
   function glowAt(d: number) {
@@ -122,14 +145,11 @@
         if (Math.abs(tx - ox) > 0.05 || Math.abs(ty - oy) > 0.05) moving = true;
         const px = x + ox;
         const py = y + oy;
-        ctx.moveTo(px + 1, py);
-        ctx.arc(px, py, 1, 0, Math.PI * 2);
+        const star = i / 2 === egg;
+        addDot(ctx, px, py, star);
         const b = Math.max(shine[i / 2], glowAt(Math.hypot(px - mx, py - my)));
         const k = Math.ceil(b * LEVELS);
-        if (k > 0) {
-          levels[k - 1].moveTo(px + 1, py);
-          levels[k - 1].arc(px, py, 1, 0, Math.PI * 2);
-        }
+        if (k > 0) addDot(levels[k - 1], px, py, star);
       }
     }
     ctx.fill();

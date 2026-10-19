@@ -4,6 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Logo from "../components/Logo.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import BlogCard from "../components/BlogCard.astro";
+import SkillCloud from "../components/SkillCloud.astro";
 import SocialLinks from "../components/SocialLinks.tsx";
 import { SITE, SKILLS, SOCIALS } from "../config";
 
@@ -20,82 +21,74 @@ const posts = (await getCollection("blog", (p) => !p.data.draft))
 ---
 
 <BaseLayout>
-  <!-- Hero -->
-  <section>
-    <div class="flex flex-col items-start gap-8 py-8 sm:flex-row">
-      <div>
-        <h1 class="text-4xl uppercase leading-none sm:text-5xl font-semibold">
-          Naszrul Azreen
-          <span class="block text-brand">Badarudin</span>
-        </h1>
-        <p class="mt-3 text-xl text-fg-muted">{SITE.title}</p>
-      </div>
-    </div>
-    <div>
-      <ul class="mt-4 flex flex-wrap gap-2">
-        {
-          SKILLS.map((skill) => (
-            <li class="rounded-full border border-border px-3 py-1 text-sm text-fg-muted bg-bg">
-              {skill}
-            </li>
-          ))
-        }
-      </ul>
-      <div class="mt-6">
-        <SocialLinks socials={SOCIALS} client:visible />
-      </div>
-    </div>
-    
-  </section>
-
-  <!-- Featured projects -->
-  <section class="mt-16">
-    <div class="flex items-baseline justify-between">
-      <h2 class="text-2xl font-semibold">Featured Projects</h2>
-      <a href="/projects" class="text-sm  text-brand hover:underline">
-        View all →
-      </a>
-    </div>
-    <div data-highlight="cycle" class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {
-        projects.map((p) => (
-          <ProjectCard
-            href={`/projects/${p.id}`}
-            title={p.data.title}
-            description={p.data.description}
-            tags={p.data.tags}
-            cover={p.data.cover}
-            year={p.data.year}
-          />
-        ))
-      }
-    </div>
-  </section>
-
-  <!-- Latest posts -->
-  {
-    posts.length > 0 && (
-      <section class="mt-16">
-        <div class="flex items-baseline justify-between">
-          <h2 class="text-2xl font-semibold">Blog</h2>
-          <a href="/blog" class="text-sm text-brand hover:underline">
-            View all →
-          </a>
+  <!-- Spacing is gap, not margins, so the hero can move to the end on phones without leaving a stray mt-16 on top. -->
+  <div class="flex flex-col gap-16">
+    <!-- Hero: first in the markup for the h1, last on screen below sm -->
+    <section class="order-last sm:order-none">
+      <div class="flex flex-col gap-6 py-8 sm:flex-row sm:items-center sm:gap-8">
+        <div class="shrink-0 text-center pb-8 sm:pb-0 sm:text-left">
+          <h1 class="text-4xl uppercase leading-none sm:text-5xl font-semibold">
+            Naszrul Azreen
+            <span class="block text-brand">Badarudin</span>
+          </h1>
+          <p class="mt-3 text-xl text-fg-muted">{SITE.title}</p>
+          <div class="mt-6 flex justify-center sm:justify-start">
+            <SocialLinks socials={SOCIALS} client:visible />
+          </div>
         </div>
-        <div class="mt-6 grid gap-5 sm:grid-cols-2">
-          {posts.map((p) => (
-            <BlogCard
-              href={`/blog/${p.id}`}
+        <SkillCloud skills={SKILLS} />
+      </div>
+    </section>
+
+    <!-- Featured projects -->
+    <section>
+      <div class="flex items-baseline justify-between">
+        <h2 class="text-2xl font-semibold">Featured Projects</h2>
+        <a href="/projects" class="text-sm text-brand font-bold hover:underline">
+          View all →
+        </a>
+      </div>
+      <div data-highlight="cycle" class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          projects.map((p) => (
+            <ProjectCard
+              href={`/projects/${p.id}`}
               title={p.data.title}
               description={p.data.description}
-              pubDate={p.data.pubDate}
               tags={p.data.tags}
+              cover={p.data.cover}
+              year={p.data.year}
             />
-          ))}
-        </div>
-      </section>
-    )
-  }
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Latest posts -->
+    {
+      posts.length > 0 && (
+        <section>
+          <div class="flex items-baseline justify-between">
+            <h2 class="text-2xl font-semibold">Blog</h2>
+            <a href="/blog" class="text-sm text-brand font-bold hover:underline">
+              View all →
+            </a>
+          </div>
+          <div class="mt-6 grid gap-5 sm:grid-cols-2">
+            {posts.map((p) => (
+              <BlogCard
+                href={`/blog/${p.id}`}
+                title={p.data.title}
+                description={p.data.description}
+                pubDate={p.data.pubDate}
+                tags={p.data.tags}
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </div>
 </BaseLayout>
 
 <script>

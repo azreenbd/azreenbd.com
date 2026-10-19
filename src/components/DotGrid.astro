@@ -17,17 +17,26 @@
   const RADIUS = 960; // cursor reach, px
   const PUSH = 16; // max displacement right under the cursor, px
   const EASE = 0.12; // share of the remaining distance each dot moves per frame
+  const GLOW = 150; // radius where dots brighten around the cursor, px
+  const GLOW_HOLD = 0.25; // share of GLOW kept at full brightness before it fades
+  const LEVELS = 12; // brightness steps, one fill call each
+  const STAR_SHARE = 0.02; // share of dots twinkling at any moment
+  const STAR_MIN = 3000, STAR_MAX = 7000; // one fade in + out, ms
 
   const canvas = document.getElementById("dot-grid") as HTMLCanvasElement;
   const ctx = canvas.getContext("2d")!;
   const root = document.documentElement;
-  const staticOnly = matchMedia(
-    "(prefers-reduced-motion: reduce), (hover: none)"
-  ).matches;
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const followCursor = !reduceMotion && !matchMedia("(hover: none)").matches;
+  const twinkle = !reduceMotion;
+
+  type Star = { i: number; start: number; dur: number; peak: number };
 
   let w = 0, h = 0, cols = 0, rows = 0;
-  let gap = 32, bg = "", dot = "";
+  let gap = 32, bg = "", dot = "", glow = "";
   let offsets = new Float32Array(0); // [x, y] offset per dot
+  let shine = new Float32Array(0); // twinkle brightness per dot, 0–1
+  let stars: Star[] = [];
   let mx = -1e4, my = -1e4;
   let frame = 0;
 
@@ -35,6 +44,7 @@
     const s = getComputedStyle(root);
     bg = s.getPropertyValue("--bg").trim();
     dot = s.getPropertyValue("--dot").trim();
+    glow = s.getPropertyValue("--dot-glow").trim();
     gap = parseFloat(s.getPropertyValue("--dot-gap")) || 32;
   }
 
@@ -48,15 +58,50 @@
     cols = Math.ceil(w / gap) + 1;
     rows = Math.ceil(h / gap) + 1;
     offsets = new Float32Array(cols * rows * 2);
+    shine = new Float32Array(cols * rows);
+    const now = performance.now();
+    stars = twinkle
+      ? Array.from({ length: Math.ceil(cols * rows * STAR_SHARE) }, () => {
+          const s = spawn({ i: 0, start: 0, dur: 0, peak: 0 }, now);
+          // Start partway through so the stars don't all fade in together.
+          s.start -= Math.random() * s.dur;
+          return s;
+        })
+      : [];
+  }
+
+  function spawn(s: Star, now: number) {
+    s.i = Math.floor(Math.random() * shine.length);
+    s.start = now;
+    s.dur = STAR_MIN + Math.random() * (STAR_MAX - STAR_MIN);
+    s.peak = 0.4 + Math.random() * 0.6;
+    return s;
+  }
+
+  function updateStars(now: number) {
+    shine.fill(0);
+    for (const s of stars) {
+      if (now - s.start >= s.dur) spawn(s, now);
+      const b = Math.sin((Math.PI * (now - s.start)) / s.dur) * s.peak;
+      shine[s.i] = Math.max(shine[s.i], b);
+    }
+  }
+
+  function glowAt(d: number) {
+    return d >= GLOW ? 0 : Math.min(1, (1 - d / GLOW) / (1 - GLOW_HOLD));
   }
 
   // Returns true while any dot is still easing toward its target.
   function draw() {
+    updateStars(performance.now());
     // Fill the background so the static CSS fallback dots stay hidden.
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, w, h);
     ctx.fillStyle = dot;
     ctx.beginPath();
+    // Dots are bucketed by brightness instead of painted with a gradient,
+    // so a star inside the cursor glow keeps the brighter of the two.
+    const levels = Array.from({ length: LEVELS }, () => new Path2D());
     let moving = false;
     for (let r = 0, i = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++, i += 2) {
@@ -75,17 +120,31 @@
         const ox = (offsets[i] += (tx - offsets[i]) * EASE);
         const oy = (offsets[i + 1] += (ty - offsets[i + 1]) * EASE);
         if (Math.abs(tx - ox) > 0.05 || Math.abs(ty - oy) > 0.05) moving = true;
-        ctx.moveTo(x + ox + 1, y + oy);
-        ctx.arc(x + ox, y + oy, 1, 0, Math.PI * 2);
+        const px = x + ox;
+        const py = y + oy;
+        ctx.moveTo(px + 1, py);
+        ctx.arc(px, py, 1, 0, Math.PI * 2);
+        const b = Math.max(shine[i / 2], glowAt(Math.hypot(px - mx, py - my)));
+        const k = Math.ceil(b * LEVELS);
+        if (k > 0) {
+          levels[k - 1].moveTo(px + 1, py);
+          levels[k - 1].arc(px, py, 1, 0, Math.PI * 2);
+        }
       }
     }
     ctx.fill();
+    ctx.fillStyle = glow;
+    for (let k = 0; k < LEVELS; k++) {
+      ctx.globalAlpha = (k + 1) / LEVELS;
+      ctx.fill(levels[k]);
+    }
+    ctx.globalAlpha = 1;
     return moving;
   }
 
-  // The loop stops once dots settle, so an idle page costs nothing.
+  // Without twinkle, the loop stops once dots settle, so an idle page costs nothing.
   function tick() {
-    frame = draw() ? requestAnimationFrame(tick) : 0;
+    frame = draw() || twinkle ? requestAnimationFrame(tick) : 0;
   }
   function start() {
     if (!frame) frame = requestAnimationFrame(tick);
@@ -94,6 +153,7 @@
   readTheme();
   resize();
   draw();
+  if (twinkle) start();
 
   addEventListener("resize", () => {
     resize();
@@ -105,7 +165,7 @@
     draw();
   }).observe(root, { attributes: true, attributeFilter: ["class"] });
 
-  if (!staticOnly) {
+  if (followCursor) {
     addEventListener(
       "pointermove",
       (e) => {

@@ -36,7 +36,7 @@ export const SKILLS = [
 
 // `icon` maps to a react-icons key handled in SocialLinks.tsx
 export const SOCIALS = [
-  { label: "GitHub", href: "https://github.com/azreenbd", icon: "github" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/azreenbd", icon: "linkedin" },
+  { label: "GitHub", href: "https://github.com/azreenbd", icon: "github" },
   { label: "E-mail", href: "mailto:azreen.bd@gmail.com", icon: "email" },
 ] as const;

@@ -1,10 +1,10 @@
-import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa6";
+import { RiGithubFill, RiLinkedinBoxFill, RiMailFill } from "react-icons/ri";
 import type { IconType } from "react-icons";
 
 const ICONS: Record<string, IconType> = {
-  github: FaGithub,
-  linkedin: FaLinkedin,
-  email: FaEnvelope,
+  github: RiGithubFill,
+  linkedin: RiLinkedinBoxFill,
+  email: RiMailFill,
 };
 
 type Social = { label: string; href: string; icon: string };
@@ -19,7 +19,7 @@ export default function SocialLinks({
   return (
     <div className="flex items-center gap-4">
       {socials.map((s) => {
-        const Icon = ICONS[s.icon] ?? FaEnvelope;
+        const Icon = ICONS[s.icon] ?? RiMailFill;
         const external = s.href.startsWith("http");
         return (
           <a
@@ -30,7 +30,7 @@ export default function SocialLinks({
             target={external ? "_blank" : undefined}
             // rel="me" tells search engines these profiles belong to the site owner.
             rel={external ? "me noopener noreferrer" : "me"}
-            className="text-fg-muted transition-colors hover:text-brand"
+            className="transition-colors hover:text-brand"
           >
             <Icon size={size} />
           </a>

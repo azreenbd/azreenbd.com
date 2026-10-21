@@ -4,6 +4,8 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ThemeToggle from "../../components/ThemeToggle.tsx";
 import { FaArrowUpRightFromSquare, FaGithub } from "react-icons/fa6";
 
+import { RiGithubFill, RiExternalLinkFill } from "react-icons/ri";
+
 export async function getStaticPaths() {
   const projects = await getCollection("projects", (p) => !p.data.draft);
   return projects.map((project) => ({
@@ -57,7 +59,7 @@ const { title, description, tags, link, repo, cover, year } = project.data;
               rel="noopener noreferrer"
               class="inline-flex items-center gap-2 rounded-md bg-brand px-4 py-2 text-sm uppercase tracking-wide text-white transition-colors hover:bg-brand-hover"
             >
-              <FaArrowUpRightFromSquare size={13} aria-hidden="true" /> Visit<span class="sr-only"> (opens in new tab)</span>
+              <RiExternalLinkFill size={18} aria-hidden="true" /> Visit<span class="sr-only"> (opens in new tab)</span>
             </a>
           )
         }
@@ -69,7 +71,7 @@ const { title, description, tags, link, repo, cover, year } = project.data;
               rel="noopener noreferrer"
               class="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm uppercase tracking-wide text-fg transition-colors hover:border-brand hover:text-brand"
             >
-              <FaGithub size={15} aria-hidden="true" /> Source<span class="sr-only"> (opens in new tab)</span>
+              <RiGithubFill size={18} aria-hidden="true" /> Source<span class="sr-only"> (opens in new tab)</span>
             </a>
           )
         }

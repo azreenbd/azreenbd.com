@@ -7,6 +7,8 @@ import BlogCard from "../components/BlogCard.astro";
 import SkillCloud from "../components/SkillCloud.astro";
 import SocialLinks from "../components/SocialLinks.tsx";
 import { SITE, SKILLS, SOCIALS } from "../config";
+import { RiArrowDownDoubleFill  } from "react-icons/ri";
+
 
 // Featured projects for the homepage
 const projects = (await getCollection("projects", (p) => !p.data.draft))
@@ -24,8 +26,8 @@ const posts = (await getCollection("blog", (p) => !p.data.draft))
   <!-- Spacing is gap, not margins, so the hero can move to the end on phones without leaving a stray mt-16 on top. -->
   <div class="flex flex-col gap-16">
     <!-- Hero: first in the markup for the h1, last on screen below sm -->
-    <section class="order-last sm:order-none">
-      <div class="flex flex-col gap-6 py-8 sm:flex-row sm:items-center sm:gap-8">
+    <section class="min-h-[80vh] flex flex-col justify-between sm:min-h-auto">
+      <div class="flex flex-col-reverse gap-20 py-8 sm:flex-row sm:items-center sm:gap-8">
         <div class="shrink-0 text-center pb-8 sm:pb-0 sm:text-left">
           <h1 class="text-4xl uppercase leading-none sm:text-5xl font-semibold">
             Naszrul Azreen
@@ -37,6 +39,12 @@ const posts = (await getCollection("blog", (p) => !p.data.draft))
           </div>
         </div>
         <SkillCloud skills={SKILLS} />
+      </div>
+      <div class="flex flex-col items-center text-fg-muted animate-bounce sm:hidden">
+        <div class="text-xs font-bold">Scroll</div>
+        <div class="text-2xl">
+          <RiArrowDownDoubleFill  />
+        </div>
       </div>
     </section>
 

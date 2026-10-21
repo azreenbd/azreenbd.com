@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { FaCircleHalfStroke, FaMoon, FaSun } from "react-icons/fa6";
+import { RiContrastLine, RiMoonLine, RiSunLine  } from "react-icons/ri";
+
 
 type Mode = "system" | "light" | "dark";
 
 const ICONS = {
-  system: FaCircleHalfStroke,
-  light: FaSun,
-  dark: FaMoon,
+  system: RiContrastLine,
+  light: RiSunLine,
+  dark: RiMoonLine,
 };
 
 function readMode(): Mode {

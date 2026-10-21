@@ -1,6 +1,7 @@
 import { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { FaBars, FaXmark } from "react-icons/fa6";
+import { RiMenuLine, RiCloseFill } from "react-icons/ri";
+
 
 type NavItem = { label: string; href: string };
 
@@ -25,7 +26,7 @@ export default function MobileNav({
           aria-label={open ? "Close menu" : "Open menu"}
           className="grid h-9 w-9 place-items-center rounded-md border border-border text-fg md:hidden"
         >
-          {open ? <FaXmark size={18} /> : <FaBars size={16} />}
+          {open ? <RiCloseFill size={18} /> : <RiMenuLine size={16} />}
         </button>
       </Dialog.Trigger>
 
